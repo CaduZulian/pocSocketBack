@@ -65,8 +65,14 @@ io.on("connection", function (client) {
     console.log('user ' + client.id + ' joined to room ' + room)
   })
 
-  client.on('leaveRoom', () => {
-    if (clients[client.id].room) {
+  client.on('leaveRoom', (room) => {
+    if(room) {
+      client.leave(room)
+
+      console.log('user ' + client.id + ' leaved of room ' + room)
+
+      clients[client.id] = { id: client.id };
+    } else if (clients[client.id].room) {
       client.leave(clients[client.id].room)
 
       console.log('user ' + client.id + ' leaved of room ' + clients[client.id].room)
